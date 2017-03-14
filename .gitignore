@@ -1,0 +1,16 @@
+.classpath
+.project
+.settings
+target
+/target/
+.DS_Store
+.tern-project
+.metadata
+.tmp
+.Trashes
+.idea
+.nbproject
+*.iml
+
+src/main/resources/META-INF/persistence.xml
+src/main/resources/config.properties
