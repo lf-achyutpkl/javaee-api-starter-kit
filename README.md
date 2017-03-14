@@ -3,7 +3,7 @@
 ## Installation
 * Insert following datasource in your wildfly standalone.xml file
 
-
+```xml
     <datasource jta="true" jndi-name="java:jboss/datasources/remittance" pool-name="remittance" enabled="true" use-ccm="false">
         <connection-url>jdbc:postgresql://localhost:5432/remittance</connection-url>
         <driver-class>org.postgresql.Driver</driver-class>
@@ -26,6 +26,6 @@
             <share-prepared-statements>false</share-prepared-statements>
         </statement>
     </datasource>
-    
+```   
     
 * Copy persistence.template.xml and paste it as persistence.xml
