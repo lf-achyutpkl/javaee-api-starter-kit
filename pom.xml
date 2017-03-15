@@ -16,6 +16,8 @@
 		<junit.version>4.12</junit.version>
 		<javaee.version>7.0</javaee.version>
 		<maven.plugin.version>2.5</maven.plugin.version>
+		<liquibase.cdi.version>3.5.3</liquibase.cdi.version>
+		<liquibase.core.version>3.5.3</liquibase.core.version>
 		<hibernate.core.version>5.0.7.Final</hibernate.core.version>
 		<wildfly.plugin.version>1.1.0.Final</wildfly.plugin.version>
 	</properties>
@@ -42,6 +44,17 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.core.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-cdi</artifactId>
+			<version>${liquibase.cdi.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
