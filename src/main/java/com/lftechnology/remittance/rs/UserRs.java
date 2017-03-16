@@ -64,7 +64,7 @@ public class UserRs {
 
 	@DELETE
 	@Path("/{id}")
-	public Response remove(@javax.ws.rs.PathParam("id") UUID id) {
+	public Response remove(@PathParam("id") UUID id) {
 		userService.removeById(id);
 		return Response.status(Response.Status.OK).build();
 	}
