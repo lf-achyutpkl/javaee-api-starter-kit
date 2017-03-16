@@ -16,14 +16,9 @@
             <user-name>USER_NAME</user-name>
             <password>PASSWORD</password>
         </security>
-        <validation>
-            <validate-on-match>false</validate-on-match>
-            <background-validation>false</background-validation>
-            <background-validation-millis>1</background-validation-millis>
-        </validation>
         <statement>
-            <prepared-statement-cache-size>0</prepared-statement-cache-size>
-            <share-prepared-statements>false</share-prepared-statements>
+            <prepared-statement-cache-size>100</prepared-statement-cache-size>
+            <share-prepared-statements>true</share-prepared-statements>
         </statement>
     </datasource>
 ```   
