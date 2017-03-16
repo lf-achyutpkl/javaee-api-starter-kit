@@ -2,7 +2,9 @@ package com.lftechnology.remittance.rs;
 
 import java.util.UUID;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -17,7 +19,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.lftechnology.remittance.Resources;
+import com.lftechnology.remittance.annotations.TenantEm;
 import com.lftechnology.remittance.entity.User;
+import com.lftechnology.remittance.enums.PCUnitName;
 import com.lftechnology.remittance.exception.ObjectNotFoundException;
 import com.lftechnology.remittance.service.UserService;
 
@@ -27,6 +32,13 @@ import com.lftechnology.remittance.service.UserService;
 @Path("users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRs {
+
+	@Inject
+	Resources entityManagerFactory;
+
+	@Inject
+	@TenantEm
+	Event<EntityManager> tenantBaseEM;
 
 	@Inject
 	private UserService userService;
@@ -41,6 +53,7 @@ public class UserRs {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(@NotNull(message = "Request body expected") @Valid User user) {
+		fireEntityManger(user);
 		return Response.status(Status.OK).entity(userService.save(user)).build();
 	}
 
@@ -48,6 +61,7 @@ public class UserRs {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") UUID id, @NotNull(message = "Request body expected") @Valid User user) {
+		fireEntityManger(user);
 		return Response.status(Response.Status.OK).entity(userService.merge(id, user)).build();
 	}
 
@@ -69,4 +83,13 @@ public class UserRs {
 		return Response.status(Response.Status.OK).build();
 	}
 
+	private void fireEntityManger(User user) {
+		EntityManager entityManager;
+		if (user.getName().startsWith("P")) {
+			entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB1);
+		} else {
+			entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB2);
+		}
+		tenantBaseEM.fire(entityManager);
+	}
 }

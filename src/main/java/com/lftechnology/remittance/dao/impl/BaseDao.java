@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.lftechnology.remittance.annotations.TenantEm;
 import com.lftechnology.remittance.dao.CrudDao;
 import com.lftechnology.remittance.exception.DataAccessException;
 
@@ -22,6 +23,7 @@ import com.lftechnology.remittance.exception.DataAccessException;
 public abstract class BaseDao<T, Pk> implements CrudDao<T, Pk> {
 
 	@Inject
+	@TenantEm
 	protected EntityManager em;
 
 	protected Class<T> entityClass;
