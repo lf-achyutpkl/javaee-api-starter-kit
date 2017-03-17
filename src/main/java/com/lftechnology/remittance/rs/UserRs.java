@@ -19,54 +19,56 @@ import javax.ws.rs.core.Response.Status;
 
 import com.lftechnology.remittance.entity.User;
 import com.lftechnology.remittance.exception.ObjectNotFoundException;
+import com.lftechnology.remittance.interceptor.Logged;
 import com.lftechnology.remittance.service.UserService;
 
 /**
  * @author Achyut Pokhrel <achyutpokhrel@lftechnology.com>
  */
+@Logged
 @Path("users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRs {
 
-	@Inject
-	private UserService userService;
+    @Inject
+    private UserService userService;
 
-	@GET
-	@Path("/")
-	public Response list() {
-		return Response.status(Response.Status.OK).entity(userService.findByFilter()).build();
-	}
+    @GET
+    @Path("/")
+    public Response list() {
+        return Response.status(Response.Status.OK).entity(userService.findByFilter()).build();
+    }
 
-	@POST
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(@NotNull(message = "Request body expected") @Valid User user) {
-		return Response.status(Status.OK).entity(userService.save(user)).build();
-	}
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(@NotNull(message = "Request body expected") @Valid User user) {
+        return Response.status(Status.OK).entity(userService.save(user)).build();
+    }
 
-	@PUT
-	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") UUID id, @NotNull(message = "Request body expected") @Valid User user) {
-		return Response.status(Response.Status.OK).entity(userService.merge(id, user)).build();
-	}
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") UUID id, @NotNull(message = "Request body expected") @Valid User user) {
+        return Response.status(Response.Status.OK).entity(userService.merge(id, user)).build();
+    }
 
-	@GET
-	@Path("/{id}")
-	public Response findById(@PathParam("id") UUID id) {
-		User user = userService.findById(id);
-		if (user != null) {
-			return Response.status(Response.Status.OK).entity(user).build();
-		} else {
-			throw new ObjectNotFoundException();
-		}
-	}
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") UUID id) {
+        User user = userService.findById(id);
+        if (user != null) {
+            return Response.status(Response.Status.OK).entity(user).build();
+        } else {
+            throw new ObjectNotFoundException();
+        }
+    }
 
-	@DELETE
-	@Path("/{id}")
-	public Response remove(@PathParam("id") UUID id) {
-		userService.removeById(id);
-		return Response.status(Response.Status.OK).build();
-	}
+    @DELETE
+    @Path("/{id}")
+    public Response remove(@PathParam("id") UUID id) {
+        userService.removeById(id);
+        return Response.status(Response.Status.OK).build();
+    }
 
 }
