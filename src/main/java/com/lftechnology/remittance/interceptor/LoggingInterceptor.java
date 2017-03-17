@@ -1,5 +1,9 @@
 package com.lftechnology.remittance.interceptor;
 
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -15,9 +19,9 @@ public class LoggingInterceptor {
 
     @AroundInvoke
     public Object log(InvocationContext context) throws Exception {
-        System.out.println("heheheheheh");
-        // Logger.getAnonymousLogger().log(Level.INFO, "{0} called with {1} parameters",
-        // new Object[] { context.getMethod().getName(), Arrays.deepToString(context.getParameters()) });
+        Logger.getAnonymousLogger().log(Level.INFO, "##>>  Method {0} called with {1} parameters.",
+                new Object[] { context.getMethod().getName(), Arrays.deepToString(context.getParameters()) });
+
         return context.proceed();
     }
 }
