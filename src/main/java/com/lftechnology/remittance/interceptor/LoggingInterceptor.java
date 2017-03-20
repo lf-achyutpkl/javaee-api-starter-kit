@@ -1,12 +1,14 @@
 package com.lftechnology.remittance.interceptor;
 
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import javax.annotation.Priority;
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+
+import org.slf4j.Logger;
 
 /**
  * Interceptor to log over method invocation.
@@ -15,11 +17,15 @@ import javax.interceptor.InvocationContext;
  */
 @Logged
 @Interceptor
+@Priority(Interceptor.Priority.APPLICATION)
 public class LoggingInterceptor {
+
+    @Inject
+    private Logger log;
 
     @AroundInvoke
     public Object log(InvocationContext context) throws Exception {
-        Logger.getAnonymousLogger().log(Level.INFO, "##>>  Method {0} called with {1} parameters.",
+        log.info("Method {} called with {} parameters",
                 new Object[] { context.getMethod().getName(), Arrays.deepToString(context.getParameters()) });
 
         return context.proceed();
