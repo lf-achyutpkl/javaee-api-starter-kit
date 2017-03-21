@@ -6,6 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
+import javax.transaction.TransactionScoped;
 
 /**
  * Created by prkandel on 3/15/17.
@@ -13,7 +14,7 @@ import javax.persistence.EntityManager;
 @RequestScoped
 public class TenantEmProducer {
     @Produces
-    @RequestScoped
+    @TransactionScoped
     @TenantEm
     private EntityManager em;
 

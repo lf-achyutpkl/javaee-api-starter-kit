@@ -50,22 +50,32 @@ public class UserRs {
 	@GET
 	@Path("/")
 	public Response list() {
-		return Response.status(Response.Status.OK).entity(userService.findByFilter()).build();
+
+		EntityManager entityManager;
+		entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB2);
+		tenantBaseEM.fire(entityManager);
+		List<User> users = new ArrayList<>();
+		users.addAll(userService.findByFilter());
+
+		entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB1);
+		tenantBaseEM.fire(entityManager);
+		users.addAll(userService.findByFilter());
+		return Response.status(Response.Status.OK).entity(users).build();
 	}
 
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(@NotNull(message = "Request body expected") @Valid User user) {
-		fireEntityManger(user);
+	public Response create(@NotNull(message = "Request body expected") @Valid User user, @Context HttpHeaders headers) {
+		fireEntityManager(headers);
 		return Response.status(Status.OK).entity(userService.save(user)).build();
 	}
 
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") UUID id, @NotNull(message = "Request body expected") @Valid User user) {
-		fireEntityManger(user);
+	public Response update(@PathParam("id") UUID id, @NotNull(message = "Request body expected") @Valid User user, @Context HttpHeaders headers) {
+		fireEntityManager(headers);
 		return Response.status(Response.Status.OK).entity(userService.merge(id, user)).build();
 	}
 
@@ -83,20 +93,12 @@ public class UserRs {
 
 	@DELETE
 	@Path("/{id}")
-	public Response remove(@javax.ws.rs.PathParam("id") UUID id) {
+	public Response remove(@javax.ws.rs.PathParam("id") UUID id, @Context HttpHeaders headers) {
+		fireEntityManager(headers);
 		userService.removeById(id);
 		return Response.status(Response.Status.OK).build();
 	}
 
-	private void fireEntityManger(User user) {
-		EntityManager entityManager;
-		if (user.getName().startsWith("P")) {
-			entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB1);
-		} else {
-			entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB2);
-		}
-		tenantBaseEM.fire(entityManager);
-	}
 
 	private void fireEntityManager(HttpHeaders headers){
 		EntityManager entityManager;
