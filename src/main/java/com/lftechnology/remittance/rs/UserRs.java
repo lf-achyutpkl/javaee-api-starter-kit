@@ -1,5 +1,7 @@
 package com.lftechnology.remittance.rs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.enterprise.event.Event;
@@ -15,6 +17,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -67,7 +71,8 @@ public class UserRs {
 
 	@GET
 	@Path("/{id}")
-	public Response findById(@PathParam("id") UUID id) {
+	public Response findById(@PathParam("id") UUID id, @Context HttpHeaders headers) {
+		fireEntityManager(headers);
 		User user = userService.findById(id);
 		if (user != null) {
 			return Response.status(Response.Status.OK).entity(user).build();
@@ -91,5 +96,21 @@ public class UserRs {
 			entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB2);
 		}
 		tenantBaseEM.fire(entityManager);
+	}
+
+	private void fireEntityManager(HttpHeaders headers){
+		EntityManager entityManager;
+		List<String> tenants = headers.getRequestHeader("tenant");
+		if(!tenants.isEmpty()){
+			if(tenants.get(0).equals("Tenant1")){
+				entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB1);
+			}else{
+				entityManager = entityManagerFactory.createEntityManger(PCUnitName.DB2);
+			}
+			tenantBaseEM.fire(entityManager);
+		}else{
+			tenantBaseEM.fire(entityManagerFactory.createEntityManger(PCUnitName.DB1));
+		}
+
 	}
 }
