@@ -16,8 +16,14 @@
 		<junit.version>4.12</junit.version>
 		<javaee.version>7.0</javaee.version>
 		<maven.plugin.version>2.5</maven.plugin.version>
+		<jackson.core.version>2.8.4</jackson.core.version>
+		<liquibase.cdi.version>3.5.3</liquibase.cdi.version>
+		<liquibase.core.version>3.5.3</liquibase.core.version>
+		<liquibase.slf4j.version>2.0.0</liquibase.slf4j.version>
+		<jackson.databind.version>2.8.4</jackson.databind.version>
 		<hibernate.core.version>5.0.7.Final</hibernate.core.version>
 		<wildfly.plugin.version>1.1.0.Final</wildfly.plugin.version>
+		<jackson.annotations.version>2.8.4</jackson.annotations.version>
 	</properties>
 
 	<dependencies>
@@ -43,25 +49,42 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.core.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-cdi</artifactId>
+			<version>${liquibase.cdi.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mattbertolini</groupId>
+			<artifactId>liquibase-slf4j</artifactId>
+			<version>${liquibase.slf4j.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.8.4</version>
+			<version>${jackson.core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.8.4</version>
+			<version>${jackson.annotations.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.8.4</version>
+			<version>${jackson.databind.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
