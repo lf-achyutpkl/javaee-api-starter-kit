@@ -1,8 +1,7 @@
 package com.lftechnology.remittance.exception.mapper;
 
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import com.lftechnology.remittance.pojo.ErrorMessage;
-import com.lftechnology.remittance.pojo.ErrorMessageWrapper;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -10,8 +9,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.lftechnology.remittance.pojo.ErrorMessage;
+import com.lftechnology.remittance.pojo.ErrorMessageWrapper;
 
 /**
  * Created by prkandel on 3/16/17.
@@ -28,13 +28,12 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
 
         List<ErrorMessage> errorMessages = new ArrayList<>();
 
-        for(ConstraintViolation constraintViolation: exception.getConstraintViolations()){
+        for (ConstraintViolation constraintViolation : exception.getConstraintViolations()) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setMessage(constraintViolation.getMessage());
             errorMessages.add(errorMessage);
         }
         errorMessageWrapper.setErrors(errorMessages);
-        return Response.status(Response.Status.BAD_REQUEST).entity(errorMessageWrapper)
-                .type(MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(errorMessageWrapper).type(MediaType.APPLICATION_JSON).build();
     }
 }
