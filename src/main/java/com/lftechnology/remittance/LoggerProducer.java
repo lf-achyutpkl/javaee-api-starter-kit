@@ -1,4 +1,4 @@
-package com.lftechnology.remittance.interceptor;
+package com.lftechnology.remittance;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;

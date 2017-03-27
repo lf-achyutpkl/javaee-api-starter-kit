@@ -29,7 +29,7 @@ import liquibase.resource.ResourceAccessor;
 @Startup
 @Singleton
 @TransactionManagement(TransactionManagementType.BEAN)
-public class LiquibaseFactory {
+public class LiquibaseProducer {
 
     Map<DataSource, String> changeLogFile = new HashMap<>();
     private static final String CHANGE_LOG_FILE = "/changelog-master.xml";
