@@ -6,6 +6,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.lftechnology.remittance.exception.DataAccessException;
+import com.lftechnology.remittance.pojo.ErrorMessage;
 
 /**
  * Exception mapper for {@link DataAccessException}
@@ -18,6 +19,9 @@ public class DataAccessExceptionMapper implements ExceptionMapper<DataAccessExce
 
 	@Override
 	public Response toResponse(DataAccessException exception) {
+		ErrorMessage errorMessage = new ErrorMessage();
+		errorMessage.setCode(Response.Status.BAD_REQUEST.getStatusCode());
+		errorMessage.setMessage(exception.getMessage());
 		return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage())
 				.type(MediaType.APPLICATION_JSON).build();
 	}

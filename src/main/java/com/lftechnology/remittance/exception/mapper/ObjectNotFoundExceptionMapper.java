@@ -6,6 +6,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.lftechnology.remittance.exception.ObjectNotFoundException;
+import com.lftechnology.remittance.pojo.ErrorMessage;
 
 /**
  * Exception mapper for {@link ObjectNotFoundException}
@@ -18,7 +19,10 @@ public class ObjectNotFoundExceptionMapper implements ExceptionMapper<ObjectNotF
 
 	@Override
 	public Response toResponse(ObjectNotFoundException exception) {
-		return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage())
+		ErrorMessage errorMessage = new ErrorMessage();
+		errorMessage.setCode(Response.Status.NOT_FOUND.getStatusCode());
+		errorMessage.setMessage("No row with given identifier");
+		return Response.status(Response.Status.NOT_FOUND).entity(errorMessage)
 				.type(MediaType.APPLICATION_JSON).build();
 	}
 }
